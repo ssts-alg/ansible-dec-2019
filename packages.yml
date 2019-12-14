@@ -1,0 +1,39 @@
+---
+ - hosts: all
+   become: true
+   vars:
+     - java_version: 1.8.0
+   # vars_files:
+   #   - ./vars.yml
+   tasks:
+     - name: Installing pacakges
+       yum:
+         name: ['git', 'docker', 'httpd', 'java-{{java_version}}-openjdk-devel']
+         state: present
+     - name: Updating Java Version
+       alternatives:
+         name: java
+         path: /usr/lib/jvm/jre-{{java_version}}-openjdk.x86_64/bin/java
+     - name: Updating Javac Version
+       alternatives:
+         name: javac
+         path: /usr/lib/jvm/java-{{java_version}}-openjdk.x86_64/bin/javac
+     - name: Strting docker and apache
+       service:
+         name: "{{item}}"
+         state: started
+         enabled: yes
+       with_items:
+         - docker
+         - httpd
+     - name: Coping index.html to /var/www/html
+       copy:
+         src: ./index.html
+         dest: /var/www/html
+       notify:
+         - Restrting httpd
+   handlers:
+     - name: Restrting httpd
+       service:
+         name: httpd
+         state: restarted

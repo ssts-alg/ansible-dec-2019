@@ -1,0 +1,20 @@
+---
+ - hosts: all
+   become: true
+   tasks:
+     - name: Installing Git
+       yum:
+         name: git
+         state: present
+     - name: Installing docker
+       yum:
+         name: docker
+         state: present
+     - name: Installing httpd
+       yum:
+         name: httpd
+         state: present
+     - name: Installing java-1.8.0
+       yum:
+         name: java-1.8.0-openjdk-devel
+         state: present

@@ -1,0 +1,13 @@
+---
+ - hosts: all
+   become: true
+   tasks:
+     - name: Installing pacakges
+       yum:
+         name: "{{ item }}"
+         state: present
+       with_items:
+         - git
+         - httpd
+         - docker
+         - java-1.8.0-openjdk-devel
