@@ -24,3 +24,11 @@
        service:
          name: apache2
          state: restarted
+
+
+
+
+
+
+sudo yum install python -y
+sudo apt-get install python3 -y

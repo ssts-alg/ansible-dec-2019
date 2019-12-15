@@ -1,0 +1,6 @@
+---
+ - hosts: all
+   become: true
+   tasks:
+     - include: ./packages.yml
+     - include: ./ubuntu.yml

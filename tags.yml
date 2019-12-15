@@ -6,16 +6,17 @@
        yum:
          name: git
          state: present
-       tag: task-1
+       tags:
+         - task-1
      - name: installing docker
        yum:
          name: docker
          state: present
-       tag:
+       tags:
          - task-2
      - name: installing httpd
        yum:
          name: httpd
          state: present
-       tag:
+       tags:
          - task-3
