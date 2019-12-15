@@ -1,0 +1,26 @@
+---
+ - hosts: ubuntu
+   become: true
+   tasks:
+     - name: Installing pacakges
+       apt:
+         name: ['git', 'apache2']
+         state: present
+     - name: Strting apache
+       service:
+         name: "{{item}}"
+         state: started
+         enabled: yes
+       with_items:
+         - apache2
+     - name: Coping index.html to /var/www/html
+       copy:
+         src: ./index.html
+         dest: /var/www/html
+       notify:
+         - Restrting httpd
+   handlers:
+     - name: Restrting httpd
+       service:
+         name: apache2
+         state: restarted

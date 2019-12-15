@@ -1,0 +1,18 @@
+---
+ - hosts: redhat
+   become: true
+   tasks:
+     - name: installing git
+       yum:
+         name: git
+         state: present
+     - name:
+       debug:
+         msg: git installating completed
+     - name: installing docker
+       yum:
+         name: docker
+         state: present
+     - name:
+       debug:
+         msg: docker installating completed
