@@ -1,0 +1,29 @@
+---
+ - hosts: maven
+   become: true
+   vars:
+     - java_version: 1.8.0
+     - maven_version : 3.6.3
+   tasks:
+     - name: Instaiing java
+       yum: name=java-{{java_version}}-openjdk-devel state=present
+     - name: Updating Java Version
+       alternatives:
+         name: java
+         path: /usr/lib/jvm/jre-{{java_version}}-openjdk.x86_64/bin/java
+     - name: Updating Javac Version
+       alternatives:
+         name: javac
+         path: /usr/lib/jvm/java-{{java_version}}-openjdk.x86_64/bin/javac
+     - name: Downloading Maven Tar file.
+       get_url:
+         url: http://mirrors.estointernet.in/apache/maven/maven-3/{{maven_version}}/binaries/apache-maven-{{maven_version}}-bin.tar.gz
+         dest: /opt/apache-maven-{{maven_version}}-bin.tar.gz
+     - name: Extracting Maven Tar file
+       command: chdir=/usr/share /bin/tar xvf /opt/apache-maven-{{maven_version}}-bin.tar.gz -C /opt/ creates=/opt/apache-maven-{{maven_version}}
+     - name: Symlink install directory
+       file: src=/opt/apache-maven-{{maven_version}} path=/usr/bin/mvn state=link
+     - name: Setting PATH
+       lineinfile:
+         path: /home/ec2-user/.bashrc
+         line: abc
